@@ -7,16 +7,16 @@ require("../system/function.php");
 // Group 3 - administrators (all access)
 
 if(isset($_GET['request'])){
-$reqid = $_GET['request'];
-if($mgr->checkTicketExists($reqid) != 1){
-    header("Location:../error.php?error=ticket_no_exist");
-    exit(2);
-}
-if($security->hasPerm(phpCAS::GetUser(),$reqid) < 1){
-    header("Location:../error.php?error=ticket_no_perm");
-    exit(2);
-}
-$ticket = $mgr->Data($reqid);
+    $reqid = $_GET['request'];
+    if($mgr->checkTicketExists($reqid) != 1){
+	header("Location:../error.php?error=ticket_no_exist");
+	exit(2);
+    }
+    if($security->hasPerm(phpCAS::GetUser(),$reqid) < 1){
+        header("Location:../error.php?error=ticket_no_perm");
+        exit(2);
+    }
+    $ticket = $mgr->Data($reqid);
 
 echo "
 <table border=\"1\">
@@ -45,9 +45,10 @@ echo "
 
 </tr>
 	    </table>";
-echo "<br /><br /><a href=\"{$_SERVER['PHP_SELF']}\">Back</a>";
+    echo "<br /><br /><a href=\"{$_SERVER['PHP_SELF']}\">Back</a>";
 }else{
     global $db;
+    echo "User: ".phpCAS::GetUser()."<br />";
     if($security->hasPerm(phpCAS::GetUser()) > 1){
 	echo 'Logged in as an Administrator<br />';
 	$result = $db->query("SELECT * FROM request ORDER BY reqid DESC;");
