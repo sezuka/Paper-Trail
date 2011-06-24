@@ -132,7 +132,7 @@ class Security{
 	return 1;
     }
     
-    public function hasAccount($username){
+    public function hasAccount($username){ //Unused
 	global $db;
 	$result = $db->query("SELECT * FROM s_user WHERE username='".$username."';");
 	if($result->num_rows > 0){
@@ -146,10 +146,23 @@ class Security{
     
     public function hasPerm($username, $reqid){
 	global $db;
+	$reqid = $this->SQLPrep($reqid);
 	$result = $db->query("SELECT * FROM s_user WHERE username='{$username}';");
-	var_dump($result);
+	$group = $result->fetch_object()->group;
+	
 	if($result->num_rows > 0 && !isset($reqid)){
-	    return $result->fetch_object()->group;
+	    return $group;
+	}elseif($result->num_rows > 0 && isset($reqid)){
+	    if($group > 1){
+		return $group;
+	    }else{
+		$result = $db->query("SELECT username FROM request WHERE reqid='{$reqid}' LIMIT 1;");
+		$req = $result->fetch_object();
+		if($req->username == $username){
+		
+		    return 1;
+		}
+	    }
 	}else{ //Before this final else, there should be an elseif for line managers and managers
 	    $result = $db->query("SELECT username FROM request WHERE reqid='{$reqid}' LIMIT 1;");
 	    $req = $result->fetch_object();
