@@ -17,7 +17,5 @@ $db_dbname = "paper";
 $pt_dir = "/var/www/paper/";
 $pt_www = "/paper/";
 $pt_approval_req = array(1, 2, 3, 4); // Defines which Manager IDs (s_manager table) need to approve a request before it is deemed approved
-$pt_admin = 2; // Administrator Account level on Paper Trail system (s_user table, level column)
-$grp_managers = 1; // Group that allows approval
 
 ?>
