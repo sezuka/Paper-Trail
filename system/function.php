@@ -1,6 +1,6 @@
 <?php
-require("auth.php");
-require("db.php");
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php";
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/db.php";
 
 class Request{
     
@@ -14,10 +14,10 @@ class Request{
     public function pullUser($username){ //Pulls user information from a Database - returns object array
 	global $db;
 	$result = $db->query("SELECT * FROM s_user WHERE username='".$username."';");
-	while($user = $result->fetch_object()){
-	    return $user;
+	if(!$result){
+	    return FALSE;
 	}
-	$result->close();
+	return $result->fetch_object();
     }
 
     public function Lesson($lessonArray,$doa){ // Inserts into req_lesson table - returns int 0 for failure, 1 for success
@@ -106,9 +106,9 @@ class Manager{
 	//var_dump($lessonIDArray);
 	//var_dump($lessonNameArray);
 	//$lesson2 = array_combine($req_lesson, $name_lesson);
-	*/
 	
 	$result->close();
+	*/
 
 	//Object construct
 	$name = "{$personnel->surname}, {$personnel->forename}";

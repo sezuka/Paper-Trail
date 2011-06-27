@@ -12,20 +12,21 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
+	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+	<h1>Request for Leave of Absence</h1>
 	<form method="POST" action="submit.php" name="absence" onSubmit="return validate();">
 	    <input type="hidden" name="fid" value="1" />
-	    <p>Name: <?php echo $user->forename." ".$user->surname; ?></p>
+	    <p><?php echo $request->pullUser(phpCAS::GetUser()) ? "Name: ".$user->forename." ".$user->surname : "Username: ".phpCAS::GetUser()." (Unknown User)"; ?></p>
 	    <p>Today's Date: <?php echo date("d/m/Y"); ?></p>
-	    <p>Date of Absence: <input type="text" class="w16em" id="dp-1"  name="doa" value="<?php echo date("d/m/Y"); ?>" /></p>
+	    <p>Date of Absence: <input type="text" class="w16em" id="cal"  name="doa" value="<?php echo date("d/m/Y"); ?>" /></p>
 	    <script type="text/javascript">
 		// <![CDATA[
 		var opts = {
-		    formElements:{"dp-1":"d-sl-m-sl-Y"}
+		    formElements:{"cal":"d-sl-m-sl-Y"}
 		};
 		datePickerController.createDatePicker(opts);
 		// ]]>
 	    </script>
-
 	    <p>Reason for leaving:<br />
 		<input type="radio" name="type" value="1" onClick="return showOpt('cb');" />Work<br />
 		<input type="radio" name="type" value="2" />Personal<br />

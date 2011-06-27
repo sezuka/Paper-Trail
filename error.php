@@ -1,5 +1,5 @@
 <?php
-require("system/config.php");
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/config.php";
 
 //Errors
 //index_filecheck_missing - Index filecheck reports missing file

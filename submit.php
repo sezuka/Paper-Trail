@@ -1,5 +1,5 @@
 <?php
-require("system/function.php");
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 
 // Timed anti-resubmition script
 if(!isset($_SESSION['lastReq'])){

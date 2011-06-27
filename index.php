@@ -17,12 +17,12 @@ CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/config.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/db.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/function.php");
-CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/HTML.php");
+//CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/HTML.php");
 
 // Paper Trail management files
-CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/manage.php");
+//CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/manage.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/view.php");
-CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/users.php");
+//CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/users.php");
 
 // Root directory
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/form.php");
