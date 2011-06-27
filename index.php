@@ -1,5 +1,5 @@
 <?php
-require("system/auth.php");
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php";
 
 //Index.php has been setup to check every file exists so the Paper Trail system continues to work after user leaves this page
 //If a file or an important detail is missing, the script will die and give debug information
@@ -13,21 +13,38 @@ function CheckFile($file){
 }
 
 // Paper Trail system files
-CheckFile("system/auth.php");
-CheckFile("system/config.php");
-CheckFile("system/db.php");
-CheckFile("system/function.php");
-CheckFile("system/HTML.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/config.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/db.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/function.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/HTML.php");
 
 // Paper Trail management files
-CheckFile("management/manage.php");
-CheckFile("management/view.php");
-CheckFile("management/users.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/manage.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/view.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/users.php");
 
 // Root directory
-CheckFile("form.php");
-CheckFile("logout.php");
-CheckFile("submit.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/form.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/logout.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/submit.php");
 
-echo '<center><a href="/paper/management">Management system</a><br /><a href="/paper/form.php">Submit an absence request</a><br /><a href="logout.php">Logout</a>';
 ?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+	<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
+    </head>
+    <body>
+	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+	<h1>Paper Trail</h1>
+	Request Management
+	<ul>
+	    <li><a href="/paper/management" style="color: white;">Management system</a></li><br /></li>
+	</ul>
+	Submit a Request
+	<ul>
+	    <li><a href="/paper/form.php" style="color: white;">Submit an absence request</a><br /></li>
+	</ul>
+    </body>
+</html>
