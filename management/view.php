@@ -27,7 +27,7 @@ echo "
 		    <th>Date of Request</th>
 		    <th>Date of Absence</th>
 		    <th>Type</th>
-		    <th>Lessons</th>
+		    <th>Lesson(s)</th>
 		    <th>Approved</th>
 		    <th>Reason/Information</th>
 		</tr>
@@ -39,9 +39,9 @@ echo "
 		    <td>".date("D d/m/Y", $ticket->dor)."</td>
 		    <td>".date("D d/m/Y", $ticket->doa)."</td>
 		    <td>{$ticket->type}</td>
-		    <td>Lessons</td>
+		    <td>{$ticket->lesson}</td>
 		    <td>Approved</td>
-		    <td>".$ticket->information."</td>
+		    <td>{$ticket->information}</td>
 
 </tr>
 	    </table>";

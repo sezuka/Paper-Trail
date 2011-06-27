@@ -1,5 +1,5 @@
 <?php
-require("system/config.php");
+require("system/auth.php");
 
 //Index.php has been setup to check every file exists so the Paper Trail system continues to work after user leaves this page
 //If a file or an important detail is missing, the script will die and give debug information
@@ -29,5 +29,5 @@ CheckFile("form.php");
 CheckFile("logout.php");
 CheckFile("submit.php");
 
-echo '<center><a href="/paper/management">Management system</a><br /><a href="/paper/form.php">Submit an absence request</a>';
+echo '<center><a href="/paper/management">Management system</a><br /><a href="/paper/form.php">Submit an absence request</a><br /><a href="logout.php">Logout</a>';
 ?>

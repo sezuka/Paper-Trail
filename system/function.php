@@ -17,26 +17,25 @@ class Request{
 	while($user = $result->fetch_object()){
 	    return $user;
 	}
-	unset($result);
+	$result->close();
     }
-        
+
     public function Lesson($lessonArray,$doa){ // Inserts into req_lesson table - returns int 0 for failure, 1 for success
 	global $db;
 	$result = $db->query("SELECT reqid FROM request WHERE username='".phpCAS::GetUser()."' AND doa='".$doa."' LIMIT 1");
-	while($req = $result->fetch_object()){
-	    foreach($lessonArray as $i => $l){
-		if(!$db->query("INSERT INTO `req_lesson` (`reqid`, `lesson`) VALUES ('".$req->reqid."', '".$l."');")){
-		    
-		    return 0;
-		}
+	$req = $result->fetch_object();
+	foreach($lessonArray as $i => $l){
+	    if(!$db->query("INSERT INTO `req_lesson` (`reqid`, `lesson`) VALUES ('".$req->reqid."', '".$l."');")){
+	    
+	    return 0;
 	    }
 	}
-	unset($result);
+	$result->close();
 	unset($req);
 	
 	return 1;
     }
-    
+
     public function Absence($dor,$doa,$type,$information){
 	global $db;
 	// Check against already made requests
@@ -64,7 +63,7 @@ class Manager{
 	    return 1;
 	}
 	
-	unset($result);
+	$result->close();
 	
 	return 0;
     }
@@ -78,35 +77,47 @@ class Manager{
 	
 	$result = $db->query("SELECT * FROM request WHERE reqid='{$reqid}' LIMIT 1;");
 	$req = $result->fetch_object();
-	unset($result);
+	$result->close();
 	
 	$result = $db->query("SELECT * FROM s_user WHERE username='{$req->username}';");
 	$personnel = $result->fetch_object();
-	unset($result);
+	$result->close();
 	
 	$result = $db->query("SELECT name FROM s_office WHERE id='{$personnel->office}' LIMIT 1;");
 	$office = $result->fetch_object();
-	unset($result);
+	$result->close();
 	
 	$result = $db->query("SELECT * FROM s_leave WHERE id='{$req->leavetype}' LIMIT 1;");
 	$type = $result->fetch_object();
-	unset($result);
+	$result->close();
 	
-	$result = $db->query("SELECT lesson FROM req_lesson WHERE reqid='{$reqid}';");
-	$req_lesson = $result->fetch_object();
-	unset($result);
-		
-	$result = $db->query("SELECT * FROM s_lesson WHERE id='{$req->lesson}';");
-	//$lesson = $result->fetch_object();
-	unset($result);
+	/*
+	$result_rl = $db->query("SELECT lesson FROM req_lesson WHERE reqid='{$reqid}';");
+	while($req_lesson = $result_rl->fetch_array(MYSQLI_NUM)){
+	    $lessonIDArray = $req_lesson;
+	}
+	foreach($lessonIDArray as $lesson => $id){
+	    //$result_nl = $db->query("SELECT * FROM s_lesson WHERE id='{$lesson}';");
+	    echo "SELECT * FROM s_lesson WHERE id='{$lesson}';<br />";
+	}
+	while($name_lesson = $result_nl->fetch_array(MYSQLI_ASSOC)){
+	    $lessonNameArray[] = $name_lesson;
+	}
+	//var_dump($lessonIDArray);
+	//var_dump($lessonNameArray);
+	//$lesson2 = array_combine($req_lesson, $name_lesson);
+	*/
 	
-	//$result = $db->query("SELECT * FROM approval WHERE reqid='{$reqid}';");
-	//$approval = $result->fetch_object();
-	//unset($result);
+	$result->close();
 
 	//Object construct
 	$name = "{$personnel->surname}, {$personnel->forename}";
-	$ticket_array = array("initials" => $personnel->initials, "name" => $name, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "lesson" => "No Lessons Yet", "approval" => 0, "information" => $req->information);
+	//foreach($lesson2 as $id => $lesson){
+	//    $lesson1 = $lesson;
+	//}
+	unset($lesson); //Clean up as a bypass
+	$lesson = "Lesson";
+	$ticket_array = array("initials" => $personnel->initials, "name" => $name, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "lesson" => $lesson, "approval" => 0, "information" => $req->information);
 	foreach($ticket_array as $akey => $aval){
             $ticket->{$akey} = $aval;
         }
@@ -115,6 +126,7 @@ class Manager{
 	unset($ticket_array);
 	unset($req);
 	unset($personnel);
+	unset($req_lesson);
 	
 	return $ticket;
 	
@@ -136,11 +148,9 @@ class Security{
 	global $db;
 	$result = $db->query("SELECT * FROM s_user WHERE username='".$username."';");
 	if($result->num_rows > 0){
-	    $_SESSION['UserBadge'] = SHA1($username."bgyu@34d@asd2'][;;23adsada3f3d3");
-
 	    return 1;
 	}
-	
+	$result->close();
 	return 0;
     }
     
@@ -172,7 +182,7 @@ class Security{
 	    }
 	}
 	
-	unset($result);
+	$result->close();
 	unset($data);
 	unset($req);
 	

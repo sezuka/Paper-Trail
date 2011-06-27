@@ -4,7 +4,7 @@ require("system/function.php");
 // Timed anti-resubmition script
 if(!isset($_SESSION['lastReq'])){
     $_SESSION['lastReq'] = time();
-}elseif(time() < $_SESSION['lastReq']+20){
+}elseif(time() < $_SESSION['lastReq']+10){
     header("location:error.php?error=form_submit_timelimitreach");
     exit;
 }else{
@@ -17,7 +17,7 @@ switch($_REQUEST['fid']){
 	$type = $_REQUEST['type'];
 	$lesson = $_REQUEST['lesson'];
 	$information = $_REQUEST['information'];
-	if($request->Absence(time(), $security->SQLPrep($request->dateConvert($dateabs)), $security->SQLPrep($type), $security->SQLPrep($information)) == 1 && $request->Lesson($lesson, $dateabs) == 1){
+	if($request->Absence(time(), $security->SQLPrep($request->dateConvert($dateabs)), $security->SQLPrep($type), $security->SQLPrep($information)) == 1 && $request->Lesson($lesson, $request->dateConvert($dateabs)) == 1){
 	    echo 'Request submitted. You can see all your requests <a href="management/view.php">here</a>.';
 	    exit(2);
 	}else{
