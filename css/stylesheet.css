@@ -1,0 +1,119 @@
+body
+{
+    color: white;
+    font-size: 10pt;
+    font-family: Arial;
+    background-color: #3366cc;
+    background-image: url('../img/tex30.gif')
+}
+
+
+A:link {text-decoration: none}
+A:visited {text-decoration: none}
+A:active {text-decoration: none}
+A:hover {text-decoration: underline; color: red;}
+
+
+.TitleText
+{
+    font-weight: bold;
+    font-size: 20pt;
+    text-decoration: underline;
+}
+
+.Content_normal
+{
+    font-size: 10pt;
+}
+
+.Content_bold
+{
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.Content_bold_red
+{
+    color: Red;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.Content_bold_pink
+{
+    color: pink;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.error_text
+{
+    color: Red;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+
+.password_highlight
+{
+    color: yellow;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.username_highlight
+{
+    color: #ffaa33;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.formButton {
+	background-color: #44ddaa;
+	border-color: white;
+	border-style: beveled;
+	border-width: 1;
+	color: #000000;
+	font-size: 10pt;
+	font-family: arial,sans-serif;;
+	font-weight: bold;
+	filter:progid:DXImageTransform.Microsoft.Gradient
+        (GradientType=0,StartColorStr='#ff55dd88',EndColorStr='#ff339955');
+
+}
+
+.formButton1 {
+   color:#030;
+   font-size: 80%;
+   font-family:arial;
+   font-weight:bold;
+   /*border-color: white;*/
+   /*filter:progid:DXImageTransform.Microsoft.Gradient
+   (GradientType=0,StartColorStr='#ff55aaaa',EndColorStr='#ff55aadd');*/
+}
+
+select { 
+ background-color: #33aa88; 
+ color: #ffffff;
+ font-weight:bold; 
+}
+
+.divBorder_down {
+	width: 100%;
+	position: relative;
+	border-color:#000000;
+	border-style:solid; 
+	border-width:thin;
+	filter:progid:DXImageTransform.Microsoft.Gradient
+        (GradientType=0, StartColorStr='#ff333333',EndColorStr='#00000000');
+}
+
+.divBorder_up {
+	width: 100%;
+	position: relative;
+	border-color:#000000;
+	border-style:solid; 
+	border-width:thin;
+	filter:progid:DXImageTransform.Microsoft.Gradient
+        (GradientType=0, StartColorStr='#00000000',EndColorStr='#ff333333');
+}
