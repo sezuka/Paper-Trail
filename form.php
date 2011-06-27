@@ -18,11 +18,11 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 	    <input type="hidden" name="fid" value="1" />
 	    <p><?php echo $request->pullUser(phpCAS::GetUser()) ? "Name: ".$user->forename." ".$user->surname : "Username: ".phpCAS::GetUser()." (Unknown User)"; ?></p>
 	    <p>Today's Date: <?php echo date("d/m/Y"); ?></p>
-	    <p>Date of Absence: <input type="text" class="w16em" id="cal"  name="doa" value="<?php echo date("d/m/Y"); ?>" /></p>
+	    <p>Date of Absence: <input type="text" class="w16em" id="dp-1"  name="doa" value="<?php echo date("d/m/Y"); ?>" /></p>
 	    <script type="text/javascript">
 		// <![CDATA[
 		var opts = {
-		    formElements:{"cal":"d-sl-m-sl-Y"}
+		    formElements:{"dp-1":"d-sl-m-sl-Y"}
 		};
 		datePickerController.createDatePicker(opts);
 		// ]]>
