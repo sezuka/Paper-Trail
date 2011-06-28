@@ -21,13 +21,13 @@ CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/system/function.php");
 
 // Paper Trail management files
 //CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/manage.php");
-CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/view.php");
 //CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/management/users.php");
 
 // Root directory
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/form.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/logout.php");
 CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/submit.php");
+CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/view.php");
 
 ?>
 <!DOCTYPE HTML>

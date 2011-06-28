@@ -4,6 +4,13 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/db.php";
 
 class Request{
     
+    public function checkVar($var){
+	if(isset($var) && $var != "" || $var != NULL){
+	    return $var;
+	}
+	header('location:error.php?error=form_submit_unselected');
+    }
+    
     public function dateConvert($date){
 	list($day, $month, $year) = explode('/', $date);
 	$timestamp = mktime(0, 0, 0, $month, $day, $year);
@@ -58,7 +65,7 @@ class Manager{
     public function checkTicketExists($reqid){ //Checks if there exists a request by searching the requested ID - returns int 0 for non-existant, int 1 for existant
 	global $db;
 	$result = $db->query("SELECT * FROM request WHERE reqid='{$reqid}';");
-	if($result->num_rows == 1){
+	if($result->num_rows > 0){
 
 	    return 1;
 	}

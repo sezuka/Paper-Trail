@@ -10,19 +10,30 @@ if(!isset($_SESSION['lastReq'])){
 }else{
     unset($_SESSION['lastReq']);
 }
+?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+	<title>General Request for Leave of Absence</title>
+	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+	
 
+<?php
 switch($_REQUEST['fid']){
     case 1:
-	$dateabs = $_REQUEST['doa'];
-	$type = $_REQUEST['type'];
-	$lesson = $_REQUEST['lesson'];
-	$information = $_REQUEST['information'];
-	if($request->Absence(time(), $security->SQLPrep($request->dateConvert($dateabs)), $security->SQLPrep($type), $security->SQLPrep($information)) == 1 && $request->Lesson($lesson, $request->dateConvert($dateabs)) == 1){
-	    echo 'Request submitted. You can see all your requests <a href="management/view.php">here</a>.';
+	//$dateabs = $_REQUEST['doa'];
+	//$type = $_REQUEST['type'];
+	//$lesson = $_REQUEST['lesson'];
+	//$information = $_REQUEST['information'];
+	if($request->Absence(time(), $security->SQLPrep($request->dateConvert($request->checkVar($_REQUEST['doa']))), $security->SQLPrep($request->checkVar($_REQUEST['type'])), $security->SQLPrep($request->checkVar($_REQUEST['information']))) == 1 && $request->Lesson($request->checkVar($_REQUEST['lesson']), $security->SQLPrep($request->dateConvert($request->checkVar($_REQUEST['doa'])))) == 1){
+	    echo '<p>Request submitted. You can see all your requests <a href="view.php">here</a>.</p>';
 	    exit(2);
 	}else{
-	    echo 'Something went wrong! Please contact ICT Support.';
 	    unset($_SESSION['lastReq']);
+	    header("location:error.php?error=form_submit_fail");
 	    exit;
 	}
 	break;
@@ -32,3 +43,5 @@ switch($_REQUEST['fid']){
 }
 
 ?>
+    </body>
+</html>

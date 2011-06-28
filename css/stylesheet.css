@@ -7,9 +7,15 @@ body
     background-image: url('../img/tex30.gif')
 }
 
+#error
+{
+    color: red;
+    font-weight: bold;
+    font-size: large;
+}
 
 A:link {text-decoration: none}
-A:visited {text-decoration: none}
+A:visited {color: white;}
 A:active {text-decoration: none}
 A:hover {text-decoration: underline; color: red;}
 

@@ -28,25 +28,25 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 		// ]]>
 	    </script>
 	    <p>Reason for leaving:<br />
-		<input type="radio" name="type" value="1" onClick="return showOpt('cb');" />Work<br />
-		<input type="radio" name="type" value="2" />Personal<br />
-		<input type="radio" name="type" value="3" />Medical<br />
-		<input type="radio" name="type" value="4" />Annual Leave<br />
-		<input type="radio" name="type" value="5" />Time off in Lieu<br />
+		<input type="radio" name="type" value="1" onClick="return OptMode('cb');" />Work<br />
+		<input type="radio" name="type" value="2" onClick="return OptMode('cb');" />Personal<br />
+		<input type="radio" name="type" value="3" onClick="return OptMode('cb');" />Medical<br />
+		<input type="radio" name="type" value="4" onClick="return OptMode('cb');" />Annual Leave<br />
+		<input type="radio" name="type" value="5" onClick="return OptMode('cb');" />Time off in Lieu<br />
 	    </p>
 	    <p>Please state the reason of your absence and any additional information:<br />
 		<textarea name="information" cols="40" rows="5"></textarea>
 	    </p>
 	    <span id="cb" style="display: none;">
 		<p>Please <b>tick</b> the times for which you will be out of school:<br />
-		    <input type="checkbox" name="lesson[]" value="1" />Registration<br />
-		    <input type="checkbox" name="lesson[]" value="2" />Lesson 1<br />
-		    <input type="checkbox" name="lesson[]" value="3" />Lesson 2<br />
-		    <input type="checkbox" name="lesson[]" value="4" />Lesson 3<br />
-		    <input type="checkbox" name="lesson[]" value="5" />Lesson 4<br />
-		    <input type="checkbox" name="lesson[]" value="6" />Lesson 5<br />
-		    <input type="checkbox" name="lesson[]" value="7" />Lesson 6<br />
-		    <input type="checkbox" name="lesson[]" value="0" />No cover needed
+		    <input type="checkbox" name="lesson[]" value="1" class="lt" />Registration<br />
+		    <input type="checkbox" name="lesson[]" value="2" class="lt" />Lesson 1<br />
+		    <input type="checkbox" name="lesson[]" value="3" class="lt" />Lesson 2<br />
+		    <input type="checkbox" name="lesson[]" value="4" class="lt" />Lesson 3<br />
+		    <input type="checkbox" name="lesson[]" value="5" class="lt" />Lesson 4<br />
+		    <input type="checkbox" name="lesson[]" value="6" class="lt" />Lesson 5<br />
+		    <input type="checkbox" name="lesson[]" value="7" class="lt" />Lesson 6<br />
+		    <input type="checkbox" name="lesson[]" value="0" id="lto" />No cover needed
 		</p>
 	    </span><br />
 	    <input type="submit" name="submit" value="Submit Request" />

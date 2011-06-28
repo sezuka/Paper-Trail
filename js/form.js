@@ -1,8 +1,8 @@
-function showOpt(id){
-    if(document.absence.type[0].checked == true){
+function OptMode(id){
+    if(document.absence.type[0].checked == true || document.absence.type[1].checked == true || document.absence.type[2].checked == true){
 	document.getElementById(id).style.display = 'block';
-    //}else{
-	//not needed
+    }else if(document.absence.type[3].checked == true){
+	document.getElementById(id).style.display = 'none';
     }
 }
 
