@@ -24,10 +24,6 @@ if(!isset($_SESSION['lastReq'])){
 <?php
 switch($_REQUEST['fid']){
     case 1:
-	//$dateabs = $_REQUEST['doa'];
-	//$type = $_REQUEST['type'];
-	//$lesson = $_REQUEST['lesson'];
-	//$information = $_REQUEST['information'];
 	if($request->Absence(time(), $security->SQLPrep($request->dateConvert($request->checkVar($_REQUEST['doa']))), $security->SQLPrep($request->checkVar($_REQUEST['type'])), $security->SQLPrep($request->checkVar($_REQUEST['information']))) == 1 && $request->Lesson($request->checkVar($_REQUEST['lesson']), $security->SQLPrep($request->dateConvert($request->checkVar($_REQUEST['doa'])))) == 1){
 	    echo '<p>Request submitted. You can see all your requests <a href="view.php">here</a>.</p>';
 	    exit(2);

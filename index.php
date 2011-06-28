@@ -40,7 +40,7 @@ CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/view.php");
 	<h1>Paper Trail</h1>
 	Request Management
 	<ul>
-	    <li><a href="/paper/management" style="color: white;">Management system</a></li><br /></li>
+	    <li><a href="/paper/view.php" style="color: white;">Management system</a></li><br /></li>
 	</ul>
 	Submit a Request
 	<ul>
