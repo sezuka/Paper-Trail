@@ -4,11 +4,13 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 <!DOCTYPE HTML>
 <html>
     <head>
-	<title>General Request for Leave of Absence</title>
+	<title>Paper Trail - Request Viewer<?php if(isset($_GET['request'])){ echo " - Request #".$_GET['request']; } ?></title>
 	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+    <body class="main">
+	<h4 style="color: white; float: right;"><a href="index.php">Home</a><br /><a href="logout.php">Logout</a></h4>
+	<?php echo "<p>Logged in as: ".phpCAS::GetUser()."</p>"; ?>
+	<h1>Request Viewer<?php if(isset($_GET['request'])){ echo " - Request #".$_GET['request']; } ?></h1>
 <?php
 
 // Access groups/view permissions for this system
@@ -19,7 +21,6 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 
 if(!isset($_GET['request'])){
     global $db;
-    echo "<p>Logged in as: ".phpCAS::GetUser()."</p>";
     if($security->hasPerm(phpCAS::GetUser()) > 1){
 	echo '<p>Logged in as an <b>Administrator</b></p>';
 	$result = $db->query("SELECT * FROM request ORDER BY reqid DESC;");
@@ -27,7 +28,6 @@ if(!isset($_GET['request'])){
 	$result = $db->query("SELECT * FROM request WHERE username='".phpCAS::GetUser()."' ORDER BY reqid DESC;");
     }
     if($result->num_rows > 0){
-	echo '<p>Requests:<br />';
 	while($v = $result->fetch_object()){
 	    echo "<a href=\"{$_SERVER['PHP_SELF']}?request={$v->reqid}\">Request #{$v->reqid}</a> by {$v->username}<br />";
 	}
@@ -36,7 +36,6 @@ if(!isset($_GET['request'])){
 	echo '<p>You have made no requests.</p>';
 	exit;
     }
-    echo $buffer;
     unset($result);
     unset($v);
     //
@@ -44,16 +43,19 @@ if(!isset($_GET['request'])){
     //
     $reqid = $_GET['request'];
     if($mgr->checkTicketExists($reqid) != 1){
-	header("Location:../error.php?error=ticket_no_exist");
+	header("Location:error.php?error=ticket_no_exist");
 	exit(2);
     }
     if($security->hasPerm(phpCAS::GetUser(),$reqid) < 1){
-        header("Location:../error.php?error=ticket_no_perm");
+        header("Location:error.php?error=ticket_no_perm");
         exit(2);
     }
+    
+    
+    
     $ticket = $mgr->Data($reqid);
 
-    $block = <<<EOT
+?>
 
 <table border="1">
 		<tr>
@@ -64,23 +66,33 @@ if(!isset($_GET['request'])){
 		    <th>Date of Absence</th>
 		    <th>Type</th>
 		    <th>Lesson(s)</th>
-		    <th>Approved</th>
+		    <th>Status</th>
 		    <th>Reason/Information</th>
 		</tr>
 
 	<tr>
-		    <td>$ticket->initials</td>
-		    <td>$ticket->name</td>
-		    <td>$ticket->office</td>
-		    <td>date("D d/m/Y", $ticket->dor)</td>
-		    <td>date("D d/m/Y", $ticket->doa)</td>
-		    <td>$ticket->type</td>
-		    <td>$ticket->lesson</td>
-		    <td>Approved</td>
-		    <td>$ticket->information</td>
+		    <td><?php echo $ticket->initials; ?></td>
+		    <td><?php echo $ticket->name; ?></td>
+		    <td><?php echo $ticket->office; ?></td>
+		    <td><?php echo date("D d/m/Y", $ticket->dor); ?></td>
+		    <td><?php echo date("D d/m/Y", $ticket->doa); ?></td>
+		    <td><?php echo $ticket->type; ?></td>
+		    <td><?php
+			$result = $db->query("SELECT lesson FROM req_lesson WHERE reqid='{$reqid}';");
+			while($l_row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+			    $result_n = $db->query("SELECT name FROM s_lesson WHERE id='{$l_row['lesson']}';");
+			    while($l_row_n = mysqli_fetch_array($result_n, MYSQLI_ASSOC)){
+				foreach($l_row_n as $key_n => $dat_n){
+				    echo $dat_n.", ";
+				}
+			    }
+			}
+			?></td>
+		    <td>Pending Approval</td>
+		    <td><?php echo $ticket->information; ?></td>
 
-</tr>
-	    </table><br /><br /><a href="\$_SERVER['PHP_SELF']">Back</a>
-EOT;
+	</tr>
+	    </table><br /><br /><a href="<?php echo $_SERVER['PHP_SELF']; ?>">Back</a>
+<?php
 }
 ?>

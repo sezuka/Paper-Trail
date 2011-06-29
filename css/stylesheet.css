@@ -1,4 +1,4 @@
-body
+body.main
 {
     color: white;
     font-size: 10pt;
@@ -7,18 +7,14 @@ body
     background-image: url('../img/tex30.gif')
 }
 
-#error
+A:link
 {
-    color: red;
+    color: white;
     font-weight: bold;
-    font-size: large;
 }
-
-A:link {text-decoration: none}
 A:visited {color: white;}
 A:active {text-decoration: none}
 A:hover {text-decoration: underline; color: red;}
-
 
 .TitleText
 {
@@ -52,7 +48,7 @@ A:hover {text-decoration: underline; color: red;}
     font-size: 10pt;
 }
 
-.error_text
+#error
 {
     color: Red;
     font-weight: bold;

@@ -33,10 +33,12 @@ CheckFile($_SERVER['DOCUMENT_ROOT']."/paper/view.php");
 <!DOCTYPE HTML>
 <html>
     <head>
+	<title>Paper Trail (v0.1dev)</title>
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
     </head>
-    <body>
+    <body class="main">
 	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+	<?php echo "<p>Logged in as: ".phpCAS::GetUser()."</p>"; ?>
 	<h1>Paper Trail</h1>
 	Request Management
 	<ul>

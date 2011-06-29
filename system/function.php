@@ -45,6 +45,10 @@ class Request{
 
     public function Absence($dor,$doa,$type,$information){
 	global $db;
+	$dor = Security::SQLPrep($dor);
+	$doa = Security::SQLPrep($doa);
+	$type = Security::SQLPrep($type);
+	$information = Security::SQLPrep($information);
 	// Check against already made requests
 	$result = $db->query("SELECT * FROM request WHERE doa='".$doa."' AND username='".phpCAS::GetUser()."';");
 	if($result->num_rows > 0){ //Check if request was already made
@@ -64,6 +68,7 @@ class Manager{
     
     public function checkTicketExists($reqid){ //Checks if there exists a request by searching the requested ID - returns int 0 for non-existant, int 1 for existant
 	global $db;
+	$reqid = Security::SQLPrep($reqid);
 	$result = $db->query("SELECT * FROM request WHERE reqid='{$reqid}';");
 	if($result->num_rows > 0){
 
@@ -81,6 +86,7 @@ class Manager{
 	if(!isset($reqid)){
 	    die("Request ID needed. Error in ".$_SERVER['PHP_SELF']);
 	}
+	$reqid = Security::SQLPrep($reqid);
 	
 	$result = $db->query("SELECT * FROM request WHERE reqid='{$reqid}' LIMIT 1;");
 	$req = $result->fetch_object();
@@ -98,33 +104,9 @@ class Manager{
 	$type = $result->fetch_object();
 	$result->close();
 	
-	/*
-	$result_rl = $db->query("SELECT lesson FROM req_lesson WHERE reqid='{$reqid}';");
-	while($req_lesson = $result_rl->fetch_array(MYSQLI_NUM)){
-	    $lessonIDArray = $req_lesson;
-	}
-	foreach($lessonIDArray as $lesson => $id){
-	    //$result_nl = $db->query("SELECT * FROM s_lesson WHERE id='{$lesson}';");
-	    echo "SELECT * FROM s_lesson WHERE id='{$lesson}';<br />";
-	}
-	while($name_lesson = $result_nl->fetch_array(MYSQLI_ASSOC)){
-	    $lessonNameArray[] = $name_lesson;
-	}
-	//var_dump($lessonIDArray);
-	//var_dump($lessonNameArray);
-	//$lesson2 = array_combine($req_lesson, $name_lesson);
-	
-	$result->close();
-	*/
-
 	//Object construct
 	$name = "{$personnel->surname}, {$personnel->forename}";
-	//foreach($lesson2 as $id => $lesson){
-	//    $lesson1 = $lesson;
-	//}
-	unset($lesson); //Clean up as a bypass
-	$lesson = "Lesson";
-	$ticket_array = array("initials" => $personnel->initials, "name" => $name, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "lesson" => $lesson, "approval" => 0, "information" => $req->information);
+	$ticket_array = array("initials" => $personnel->initials, "name" => $name, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "approval" => 0, "information" => $req->information);
 	foreach($ticket_array as $akey => $aval){
             $ticket->{$akey} = $aval;
         }
@@ -142,17 +124,10 @@ class Manager{
 }
 
 class Security{
-    
-    public function getError(){
-	if(isset($error)){
-	    return $error;
-	}
-	
-	return 1;
-    }
-    
+        
     public function hasAccount($username){ //Unused
 	global $db;
+	$username = $this->SQLPrep($username);
 	$result = $db->query("SELECT * FROM s_user WHERE username='".$username."';");
 	if($result->num_rows > 0){
 	    return 1;

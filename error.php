@@ -1,5 +1,5 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT']."/paper/system/config.php";
+require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 
 //Errors
 //index_filecheck_missing - Index filecheck reports missing file
@@ -18,6 +18,16 @@ if(!isset($_REQUEST['error'])){
 $error_full = $_REQUEST['error'];
 $error = explode("_", $error_full);
 
+$error_dump = "
+Error: {$error_full}
+Time: ".time()."
+User: ".phpCAS::GetUser()."
+Machine: {$_SERVER['HTTP_USER_AGENT']}
+IP: {$_SERVER['REMOTE_ADDR']}\n\n";
+$file = fopen("logs/".date("d-m-y").".log", "a+");
+fwrite($file, $error_dump);
+fclose($file);
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -25,8 +35,8 @@ $error = explode("_", $error_full);
 	<title>General Request for Leave of Absence</title>
 	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+    <body class="main">
+	<h4 style="color: white; float: right;"><a href="index.php">Home</a><br /><a href="logout.php">Logout</a></h4>
 	<p id="error">
 <?php
 switch($error[0]){
@@ -57,15 +67,17 @@ switch($error[0]){
 	}
 	break;
     
-    case "ticket":
+    //case "ticket":
 	//ticket viewing system
-	break;
+	//break;
     
     default:
-	echo 'Unknown Error. Please contact your Network Administrator with the information on this page.<br />';
-	echo "Error: ".$error_full."<br />";
-	echo "Time: ".time()."<br />";
-	echo "User: ".$_SERVER['HTTP_USER_AGENT']." @ ".$_SERVER['REMOTE_ADDR']."<br />";
+	echo '<h3 id="error">Unknown Error. Please contact your Network Administrator with the information on this page.</h3><br />';
+	echo "Error: ".$error_full."<br />\n";
+	echo "Time: ".time()."<br />\n";
+	echo "User: ".phpCAS::GetUser()."<br />\n";
+	echo "Machine: ".$_SERVER['HTTP_USER_AGENT']."<br />\n";
+	echo "IP: ".$_SERVER['REMOTE_ADDR']."\n";
 	break;
 }
 
@@ -73,6 +85,5 @@ unset($error);
 unset($break);
 ?>
 	</p>
-	<p><b><a href="index.php">Go Back</a></b></p>
     </body>
 </html>

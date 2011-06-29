@@ -4,15 +4,16 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 <!DOCTYPE HTML>
 <html>
     <head>
-	<title>General Request for Leave of Absence</title>
+	<title>Paper Trail - General Request for Leave of Absence</title>
 	<script type="text/javascript" src="./js/form.js"></script>
 	<script type="text/javascript" src="./js/jquery.min.js"></script>
 	<script type="text/javascript" src="./js/datepicker.js">;{"describedby":"fd-dp-aria-describedby"}</script>
 	<link href="./css/datepicker.css" rel="stylesheet" type="text/css" />
 	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-	<h4><a href="logout.php" style="color: white; float: right;">Logout</a></h4>
+    <body class="main">
+	<h4 style="color: white; float: right;"><a href="index.php">Home</a><br /><a href="logout.php">Logout</a></h4>
+	<?php echo "<p>Logged in as: ".phpCAS::GetUser()."</p>"; ?>
 	<h1>Request for Leave of Absence</h1>
 	<form method="POST" action="submit.php" name="absence" onSubmit="return validate();">
 	    <input type="hidden" name="fid" value="1" />

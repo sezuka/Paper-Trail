@@ -6,6 +6,7 @@ function OptMode(id){
     }
 }
 
+
 function validate(){
     if(document.absence.type[3].checked == true){
 	return valid;
