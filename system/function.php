@@ -3,14 +3,7 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php";
 require $_SERVER['DOCUMENT_ROOT']."/paper/system/db.php";
 
 class Request{
-    
-    public function checkVar($var){
-	if(isset($var) && $var != "" || $var != NULL){
-	    return $var;
-	}
-	header('location:error.php?error=form_submit_unselected');
-    }
-    
+
     public function dateConvert($date){
 	list($day, $month, $year) = explode('/', $date);
 	$timestamp = mktime(0, 0, 0, $month, $day, $year);
@@ -49,6 +42,11 @@ class Request{
 	$doa = Security::SQLPrep($doa);
 	$type = Security::SQLPrep($type);
 	$information = Security::SQLPrep($information);
+	//Check if vars have 
+	if(empty($dor) || empty($doa) || empty($type) || empty($information)){
+	    header('location:error.php?error=form_submit_unselected');
+	    exit(2);
+	}
 	// Check against already made requests
 	$result = $db->query("SELECT * FROM request WHERE doa='".$doa."' AND username='".phpCAS::GetUser()."';");
 	if($result->num_rows > 0){ //Check if request was already made
@@ -83,7 +81,7 @@ class Manager{
     public function Data($reqid){
 	global $db;
 	
-	if(!isset($reqid)){
+	if(empty($reqid)){
 	    die("Request ID needed. Error in ".$_SERVER['PHP_SELF']);
 	}
 	$reqid = Security::SQLPrep($reqid);
@@ -142,7 +140,7 @@ class Security{
 	$result = $db->query("SELECT * FROM s_user WHERE username='{$username}';");
 	$group = $result->fetch_object()->group;
 	
-	if($result->num_rows > 0 && !isset($reqid)){
+	if($result->num_rows > 0 && empty($reqid)){
 	    return $group;
 	}elseif($result->num_rows > 0 && isset($reqid)){
 	    if($group > 1){

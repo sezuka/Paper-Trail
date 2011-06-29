@@ -24,9 +24,9 @@ Time: ".time()."
 User: ".phpCAS::GetUser()."
 Machine: {$_SERVER['HTTP_USER_AGENT']}
 IP: {$_SERVER['REMOTE_ADDR']}\n\n";
-$file = fopen("logs/".date("d-m-y").".log", "a+");
-fwrite($file, $error_dump);
-fclose($file);
+$file = @fopen("./logs/".date("d-m-y").".log", "a+");
+@fwrite($file, $error_dump);
+@fclose($file);
 
 ?>
 <!DOCTYPE HTML>
@@ -37,6 +37,8 @@ fclose($file);
     </head>
     <body class="main">
 	<h4 style="color: white; float: right;"><a href="index.php">Home</a><br /><a href="logout.php">Logout</a></h4>
+	<?php echo "<p>Logged in as: ".phpCAS::GetUser()."</p>"; ?>
+	<h1>Error!</h1>
 	<p id="error">
 <?php
 switch($error[0]){
