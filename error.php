@@ -69,9 +69,20 @@ switch($error[0]){
 	}
 	break;
     
-    //case "ticket":
-	//ticket viewing system
-	//break;
+    case "ticket":
+	if(!$error[1] == "submit"){
+	    header('location:index.php');
+	    break;
+	}
+	switch($error[2]){
+	    case "exist":
+		echo 'The ticket you requested does not exist. Please go <a href="view.php">here</a> for a list of requests.';
+		break;
+	    case "perm":
+		echo 'You do not have permission to view this request!';
+		break;
+	}
+	break;
     
     default:
 	echo '<h3 id="error">Unknown Error. Please contact your Network Administrator with the information on this page.</h3><br />';

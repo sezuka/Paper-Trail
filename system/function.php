@@ -2,6 +2,14 @@
 require $_SERVER['DOCUMENT_ROOT']."/paper/system/auth.php";
 require $_SERVER['DOCUMENT_ROOT']."/paper/system/db.php";
 
+function convert($size)
+ {
+    $unit=array('b','kb','mb','gb','tb','pb');
+    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+ }
+
+echo "<b>Memory Load: ".convert(memory_get_usage(true))."</b>\n"; // 123 kb
+
 class Request{
 
     public function dateConvert($date){
@@ -22,6 +30,8 @@ class Request{
 
     public function Lesson($lessonArray,$doa){ // Inserts into req_lesson table - returns int 0 for failure, 1 for success
 	global $db;
+	$doa = Security::SQLPrep($doa);
+	$lessonArray = Security::SQLPrep($lessonArray);
 	$result = $db->query("SELECT reqid FROM request WHERE username='".phpCAS::GetUser()."' AND doa='".$doa."' LIMIT 1");
 	$req = $result->fetch_object();
 	foreach($lessonArray as $i => $l){
@@ -42,7 +52,7 @@ class Request{
 	$doa = Security::SQLPrep($doa);
 	$type = Security::SQLPrep($type);
 	$information = Security::SQLPrep($information);
-	//Check if vars have 
+	//Check if vars have value
 	if(empty($dor) || empty($doa) || empty($type) || empty($information)){
 	    header('location:error.php?error=form_submit_unselected');
 	    exit(2);
@@ -63,6 +73,25 @@ class Request{
 }
 
 class Manager{
+    
+    public function Modify($reqid,$lesson,$doa,$type,$information){
+	global $db;
+	$doa = Security::SQLPrep($doa);
+	$type = Security::SQLPrep($type);
+	$information = Security::SQLPrep($information);
+	//Check if vars have value
+	if(empty($doa) || empty($type) || empty($information)){
+	    header('location:error.php?error=form_submit_unselected');
+	    exit(2);
+	}
+	
+	if(!$db->query("UPDATE request SET doa='".$doa."', leavetype='".$type."', information='".$information."', modifiedamount='0', modifieduser='".phpCAS::GetUser()."' WHERE reqid='".$reqid."';")){
+
+	    return 0;
+	}
+	
+	return 1;
+}
     
     public function checkTicketExists($reqid){ //Checks if there exists a request by searching the requested ID - returns int 0 for non-existant, int 1 for existant
 	global $db;
@@ -136,6 +165,7 @@ class Security{
     
     public function hasPerm($username, $reqid){
 	global $db;
+	$username = $this->SQLPrep($username);
 	$reqid = $this->SQLPrep($reqid);
 	$result = $db->query("SELECT * FROM s_user WHERE username='{$username}';");
 	$group = $result->fetch_object()->group;

@@ -6,6 +6,7 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
     <head>
 	<title>Paper Trail - Request Viewer<?php if(isset($_GET['request'])){ echo " - Request #".$_GET['request']; } ?></title>
 	<link href="./css/stylesheet.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="./js/form.js"></script>
     </head>
     <body class="main">
 	<h4 style="color: white; float: right;"><a href="index.php">Home</a><br /><a href="logout.php">Logout</a></h4>
@@ -16,7 +17,7 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 // Access groups/view permissions for this system
 // Group 0 - no access
 // Group 1 - access to own content
-// Group 2 - managers (all access)
+// Group 2 - managers (view/approve to users below access)
 // Group 3 - administrators (all access)
 
 if(!isset($_GET['request'])){
@@ -41,7 +42,7 @@ if(!isset($_GET['request'])){
     //
 }else{
     //
-    $reqid = $_GET['request'];
+    $reqid = $security->SQLPrep($_GET['request']);
     if($mgr->checkTicketExists($reqid) != 1){
 	header("Location:error.php?error=ticket_no_exist");
 	exit(2);
@@ -57,27 +58,26 @@ if(!isset($_GET['request'])){
 
 ?>
 
-<table border="1">
-		<tr>
-		    <th>Initials</th>
-		    <th>Name</th>
-		    <th>Department</th>
-		    <th>Date of Request</th>
-		    <th>Date of Absence</th>
-		    <th>Type</th>
-		    <th>Lesson(s)</th>
-		    <th>Status</th>
-		    <th>Reason/Information</th>
-		</tr>
-
-	<tr>
-		    <td><?php echo $ticket->initials; ?></td>
-		    <td><?php echo $ticket->name; ?></td>
-		    <td><?php echo $ticket->office; ?></td>
-		    <td><?php echo date("D d/m/Y", $ticket->dor); ?></td>
-		    <td><?php echo date("D d/m/Y", $ticket->doa); ?></td>
-		    <td><?php echo $ticket->type; ?></td>
-		    <td><?php
+	<table border="1">
+	    <tr>
+		<th>Initials</th>
+		<th>Name</th>
+		<th>Department</th>
+		<th>Date of Request</th>
+		<th>Date of Absence</th>
+		<th>Type</th>
+		<th>Lesson(s)</th>
+		<th>Status</th>
+		<th>Reason/Information</th>
+	    </tr>
+	    <tr>
+		<td><?php echo $ticket->initials; ?></td>
+		<td><?php echo $ticket->name; ?></td>
+		<td><?php echo $ticket->office; ?></td>
+		<td><?php echo date("D d/m/Y", $ticket->dor); ?></td>
+		<td><?php echo date("D d/m/Y", $ticket->doa); ?></td>
+		<td><?php echo $ticket->type; ?></td>
+		<td><?php
 			$result = $db->query("SELECT lesson FROM req_lesson WHERE reqid='{$reqid}';");
 			while($l_row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 			    $result_n = $db->query("SELECT name FROM s_lesson WHERE id='{$l_row['lesson']}';");
@@ -88,11 +88,28 @@ if(!isset($_GET['request'])){
 			    }
 			}
 			?></td>
-		    <td>Pending Approval</td>
-		    <td><?php echo $ticket->information; ?></td>
-
-	</tr>
-	    </table><br /><br /><a href="<?php echo $_SERVER['PHP_SELF']; ?>">Back</a>
+		<td>Pending Approval</td>
+		<td><?php echo $ticket->information; ?></td>
+	    </tr>
+	</table>
+	<br /><br />
+	<a href="<?php echo $_SERVER['PHP_SELF']; ?>">Back</a>
 <?php
+    if($security->hasPerm(phpCAS::GetUser(),$reqid) > 0){
+?>
+	<span style="float: right;">Options
+	    <form action="edit.php" method="GET">
+		<input type="hidden" name="request" value="<?php echo $security->SQLPrep($reqid); ?>" />
+		<select name="do">
+		    <option value="edit">Modify Request</option>
+		   <?php if($security->hasPerm(phpCAS::GetUser(), $reqid) > 2){ ?><option value="close">Close Request</option><?php } ?>
+		   <?php if($security->hasPerm(phpCAS::GetUser(), $reqid) > 1){ ?><option value="approve">Approve Request</option><?php } ?>
+		   <?php if($security->hasPerm(phpCAS::GetUser(), $reqid) > 1){ ?><option value="deny">Deny Request</option><?php } ?>
+		</select>
+		<input type="submit" name="submit" value="Go" id="submit" />
+	    </form>
+	</span>
+<?php
+    }
 }
 ?>

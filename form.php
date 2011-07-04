@@ -35,9 +35,11 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 		<input type="radio" name="type" value="4" onClick="return OptMode('cb');" />Annual Leave<br />
 		<input type="radio" name="type" value="5" onClick="return OptMode('cb');" />Time off in Lieu<br />
 	    </p>
-	    <p>Please state the reason of your absence and any additional information:<br />
-		<textarea name="information" cols="40" rows="5"></textarea>
-	    </p>
+	    <span id="info" style="display: none;">
+		<p>Please state the reason of your absence and any additional information:<br />
+		    <textarea name="information" cols="40" rows="5"></textarea>
+		</p>
+	    </span>
 	    <span id="cb" style="display: none;">
 		<p>Please <b>tick</b> the times for which you will be out of school:<br />
 		    <input type="checkbox" name="lesson[]" value="1" class="lt" />Registration<br />
@@ -50,7 +52,7 @@ require $_SERVER['DOCUMENT_ROOT']."/paper/system/function.php";
 		    <input type="checkbox" name="lesson[]" value="0" id="lto" />No cover needed
 		</p>
 	    </span><br />
-	    <input type="submit" name="submit" value="Submit Request" />
+	    <span id="submit" style="display: none;"><input type="submit" name="submit" value="Submit Request" /></span>
 	</form>
     </body>
 </html>
