@@ -18,15 +18,17 @@ if(!isset($_REQUEST['error'])){
 $error_full = $_REQUEST['error'];
 $error = explode("_", $error_full);
 
-$error_dump = "
+if($errorLogging == 1){
+    $error_dump = "
 Error: {$error_full}
 Time: ".time()."
 User: ".phpCAS::GetUser()."
 Machine: {$_SERVER['HTTP_USER_AGENT']}
 IP: {$_SERVER['REMOTE_ADDR']}\n\n";
-$file = @fopen("./logs/".date("d-m-y").".log", "a+");
-@fwrite($file, $error_dump);
-@fclose($file);
+    $file = @fopen("./logs/".date("d-m-y").".log", "a+");
+    @fwrite($file, $error_dump);
+    @fclose($file);
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -70,7 +72,7 @@ switch($error[0]){
 	break;
     
     case "ticket":
-	if(!$error[1] == "submit"){
+	if(!$error[1] == "no"){
 	    header('location:index.php');
 	    break;
 	}

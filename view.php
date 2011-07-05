@@ -68,6 +68,7 @@ if(!isset($_GET['request'])){
 		<th>Type</th>
 		<th>Lesson(s)</th>
 		<th>Status</th>
+		<th>Paid</th>
 		<th>Reason/Information</th>
 	    </tr>
 	    <tr>
@@ -89,6 +90,7 @@ if(!isset($_GET['request'])){
 			}
 			?></td>
 		<td>Pending Approval</td>
+		<td><?php $result = $db->query("SELECT paid FROM request WHERE reqid='{$reqid}';"); echo $result->fetch_object()->paid ? "Yes" : "No"; ?></td>
 		<td><?php echo $ticket->information; ?></td>
 	    </tr>
 	</table>

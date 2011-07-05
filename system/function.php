@@ -133,7 +133,7 @@ class Manager{
 	
 	//Object construct
 	$name = "{$personnel->surname}, {$personnel->forename}";
-	$ticket_array = array("initials" => $personnel->initials, "name" => $name, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "approval" => 0, "information" => $req->information);
+	$ticket_array = array("initials" => $personnel->Tch, "name" => $name, "username" => $req->username, "office" => $office->name, "dor" => $req->dor, "doa" => $req->doa, "type" => $type->name, "approval" => 0, "information" => $req->information, "modifiedamount" => $req->modifiedamount, "modifieddate" => $req->modifieddate, "modifieduser" => $req->modifieduser);
 	foreach($ticket_array as $akey => $aval){
             $ticket->{$akey} = $aval;
         }
