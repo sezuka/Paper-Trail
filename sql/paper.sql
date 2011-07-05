@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 23, 2011 at 08:57 AM
--- Server version: 5.1.41
--- PHP Version: 5.3.2-1ubuntu4.9
+-- Generation Time: Jul 05, 2011 at 12:01 PM
+-- Server version: 5.1.49
+-- PHP Version: 5.3.3-1ubuntu9.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -52,11 +52,14 @@ CREATE TABLE IF NOT EXISTS `request` (
   `doa` int(20) NOT NULL,
   `leavetype` int(10) NOT NULL,
   `information` longtext NOT NULL,
-  PRIMARY KEY (`reqid`),
-  UNIQUE KEY `reqid` (`reqid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
+  `modifiedamount` int(2) NOT NULL DEFAULT '0',
+  `modifieddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modifieduser` varchar(255) NOT NULL,
+  `paid` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`reqid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=84 ;
 
-
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `req_lesson`
@@ -67,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `req_lesson` (
   `reqid` int(10) NOT NULL,
   `lesson` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=142 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=211 ;
 
 -- --------------------------------------------------------
 
@@ -140,13 +143,13 @@ CREATE TABLE IF NOT EXISTS `s_user` (
   `username` varchar(50) NOT NULL,
   `forename` varchar(50) NOT NULL,
   `surname` varchar(50) NOT NULL,
-  `initials` varchar(3) NOT NULL,
+  `Tch` varchar(3) NOT NULL,
   `office` int(10) NOT NULL DEFAULT '0',
   `role` int(10) NOT NULL DEFAULT '0',
   `group` int(10) NOT NULL DEFAULT '0',
-  `level` int(10) NOT NULL DEFAULT '0',
+  `manager` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
